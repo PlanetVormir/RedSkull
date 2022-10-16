@@ -20,12 +20,12 @@ free to open an issue and I will delete this repository.
 
 ### Search
 
-**Parameters:**
+#### Parameters:
 
 - `keyword`: The name of the movie/series you want to watch.
 - `page_no`: [Optional] Response does not provide all the results at once so increment this parameter for lazy_loading
 
-**Response:**
+#### Response:
 
 ```json
 {
