@@ -29,6 +29,7 @@ free to open an issue and I will delete this repository.
 
 ```json
 {
+  "max_page_no": "page_no parameter must be smaller than the number specified here"
   "results": [
     {
       "title": "Name of the movie/series",
@@ -36,9 +37,7 @@ free to open an issue and I will delete this repository.
       "quality": "HD, SD, HDRip, etc",
       "rating": "IMDB rating",
       "type": "TV/Movie",
-      "api_data": {
-        "media_id": "use this parameter for further calls to movie/series endpoint"
-      }
+      "media_id": "use this parameter for further calls to movie/series endpoint"
     },
     {
       "title": "Another Result",
@@ -46,13 +45,8 @@ free to open an issue and I will delete this repository.
       "quality": "",
       "rating": "",
       "type": "",
-      "api_data": {
-        "media_id": ""
-      }
+      "media_id": ""
     }
-  ],
-  "api_data": {
-    "max_page_no": "page_no parameter must be smaller than the number specified here"
-  }
+  ]
 }
 ```
