@@ -1,5 +1,6 @@
 import dukpy
 from urllib.parse import quote
+from pathlib import Path
 
 __all__ = ["vrf_generator", "encrypted_url_decoder"]
 
@@ -61,7 +62,7 @@ def vrf_generator(query: str) -> str:
 
 
 def encrypted_url_decoder(encrypted_url):
-    js_file_path = __file__.removesuffix("/__init__.py") + "/url_parser.js"
+    js_file_path = Path(__file__).parent.joinpath("url_parser.js")
     with open(js_file_path) as js_file:
         javascript = js_file.read() + '\n' + f"main('{encrypted_url}')"
     return dukpy.evaljs(javascript)
