@@ -20,16 +20,23 @@ free to open an issue and I will delete this repository.
 
 ### Search
 
+> <your-api-instance>/search?keyword=<your-query>&page_no=<optional-page-no>
+
+Use this endpoint to search for a series or a movie. It won't provide all the results at once, you have to increment the
+`page_no` parameter to get more results. Each result has a `media_id` parameter and a `type` parameter which can then be
+used to request further details about a result. Use the `movie` endpoint if `type` is `Movie` or the `series` endpoint
+if the type is `TV`.
+
 #### Parameters:
 
 - `keyword`: The name of the movie/series you want to watch.
-- `page_no`: [Optional] Response does not provide all the results at once so increment this parameter for lazy_loading
+- `page_no`: [Optional] Response does not provide all the results at once so increment this parameter for lazy loading
 
 #### Response:
 
 ```json
 {
-  "max_page_no": "page_no parameter must be smaller than the number specified here"
+  "max_page_no": "page_no parameter must be smaller than the number specified here",
   "results": [
     {
       "title": "Name of the movie/series",
@@ -38,15 +45,30 @@ free to open an issue and I will delete this repository.
       "rating": "IMDB rating",
       "type": "TV/Movie",
       "media_id": "use this parameter for further calls to movie/series endpoint"
-    },
-    {
-      "title": "Another Result",
-      "poster": "",
-      "quality": "",
-      "rating": "",
-      "type": "",
-      "media_id": ""
     }
   ]
 }
 ```
+
+### Movie
+
+> <your-api-instance>/movie?media_id=<media-id-from-search-result>
+
+#### Parameters:
+
+- `media_id`: The media_id as provided in the response by the search endpoint.
+
+#### Response:
+
+```json
+{
+  "X_server_name": "episode_id",
+  "Y_server_name": "episode_id"
+}
+```
+
+### Series
+
+> <your-api-instance>/series?media_id=<media-id-from-search-result>
+
+TODO
