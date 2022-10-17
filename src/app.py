@@ -15,7 +15,7 @@ def search():
     return api.search(args.get("keyword"), args.get("page_no", 1))
 
 
-@app.route("/movies", methods=["GET"])
+@app.route("/movie", methods=["GET"])
 def movies():
     args = request.args
 
