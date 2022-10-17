@@ -1,3 +1,4 @@
 requests
 dukpy
 beautifulsoup4
+flask
