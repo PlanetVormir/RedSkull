@@ -6,7 +6,7 @@ from http.client import responses as error_messages
 
 import dukpy
 
-__all__ = ["Search", "Series", "Movie", "Episode"]
+__all__ = ["Search", "Series", "Movie", "Episode", "Trending"]
 
 
 class Search:
@@ -167,3 +167,40 @@ class Episode:
             return url
 
         raise Exception("Unable to find m3u8 URL from FileMoon Server")
+
+
+class Trending:
+    def __init__(self, html):
+        self.soup = BeautifulSoup(html, "html.parser")
+
+    def parse(self) -> dict:
+        return {
+            "results": self.__parse()
+        }
+
+    def __parse(self) -> list:
+        results = []
+
+        for slide in self.soup.select("div#slider > div.swiper-wrapper > div.item.swiper-slide"):
+            results.append(self.__parse_slide(slide))
+
+        return results
+
+    @staticmethod
+    def __parse_slide(slide) -> dict:
+        return {
+            "title": elems[0].text if (elems := slide.select("div.container > div.info > h3.title")) else None,
+            "poster": slide["data-src"],
+            "quality": elems[0].text.strip() if (
+                elems := slide.select("div.container > div.info > div.meta > span.quality")
+            ) else None,
+            "rating": elems[0].text.strip() if (
+                elems := slide.select("div.container > div.info > div.meta > span.imdb")
+            ) else None,
+            "type": elems[0]["href"].removeprefix("/").split("/")[0].title() if (
+                elems := slide.select("div.container > div.info > div.actions > a.watchnow")
+            ) else None,
+            "media_id": elems[0]["href"] if (
+                elems := slide.select("div.container > div.info > div.actions > a.watchnow")
+            ) else None,
+        }

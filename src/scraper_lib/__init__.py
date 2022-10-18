@@ -3,8 +3,12 @@ from http.client import responses as error_messages
 
 import requests
 
-from .response_parsers import *
-from .reverse_engineered import *
+if __name__ == "__main__":
+    from response_parsers import *
+    from reverse_engineered import *
+else:
+    from .response_parsers import *
+    from .reverse_engineered import *
 
 
 class RedSkull:
@@ -71,3 +75,8 @@ class RedSkull:
         encrypted_url = response.json()["url"]
         iframe_url = encrypted_url_decoder(encrypted_url)
         return Episode(self.session, iframe_url).parse()
+
+    def trending(self):
+        response = self.__get_endpoint("home")
+        html = response.content.decode()
+        return Trending(html).parse()

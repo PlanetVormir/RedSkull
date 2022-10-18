@@ -16,6 +16,7 @@ free to open an issue and I will delete this repository.
 |    movie    |     media_id     | To get episode id for different servers, use this to get m3u8 url            |
 |   series    |     media_id     | To list the seasons and episodes of a series along with it's episode id      |
 |   episode   |    episode_id    | To get m3u8 urls for a particular episode of a particular show or a movie    |
+|  trending   |  No parameters   | To get trending media (same response as search without max_page_no)          |
 | clear_cache |  No parameters   | (TODO): To force the server to clear cache, in future, it will need a reason |
 
 ## Search

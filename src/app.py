@@ -45,5 +45,10 @@ def episode():
     return api.episode(args["episode_id"])
 
 
+@app.route("/trending", methods=["GET"])
+def trending():
+    return api.trending()
+
+
 if __name__ == "__main__":
     app.run(debug=True)
