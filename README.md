@@ -10,17 +10,17 @@ free to open an issue and I will delete this repository.
 
 # Endpoints
 
-|    Name     |    Parameters    | Remarks                                                              |
-|:-----------:|:----------------:|:---------------------------------------------------------------------|
-|   search    | keyword, page_no | To search for content (movies or series)                             |
-|    movie    |     media_id     | To get m3u8 urls for a particular movie                              |
-|   series    |     media_id     | To list the seasons and episodes of series.                          |
-|   episode   |    episode_id    | To get m3u8 urls for a particular episode of a particular show       |
-| clear_cache |  No parameters   | To force the server to clear cache, in future, it will need a reason |
+|    Name     |    Parameters    | Remarks                                                                      |
+|:-----------:|:----------------:|:-----------------------------------------------------------------------------|
+|   search    | keyword, page_no | To search for content (movies or series)                                     |
+|    movie    |     media_id     | To get episode id for different servers, use this to get m3u8 url            |
+|   series    |     media_id     | To list the seasons and episodes of a series along with it's episode id      |
+|   episode   |    episode_id    | To get m3u8 urls for a particular episode of a particular show or a movie    |
+| clear_cache |  No parameters   | (TODO): To force the server to clear cache, in future, it will need a reason |
 
-### Search
+## Search
 
-> <your-api-instance>/search?keyword=<your-query>&page_no=<optional-page-no>
+> <your-api-instance>/search?keyword=&page_no=
 
 Use this endpoint to search for a series or a movie. It won't provide all the results at once, you have to increment the
 `page_no` parameter to get more results. Each result has a `media_id` parameter and a `type` parameter which can then be
@@ -50,9 +50,12 @@ if the type is `TV`.
 }
 ```
 
-### Movie
+## Movie
 
-> <your-api-instance>/movie?media_id=<media-id-from-search-result>
+> <your-api-instance>/movie?media_id=
+
+This endpoint will provide you with an `episode_id` for different servers for the given movie. Pick any one of those and
+use that to get an actual m3u8 url from the episode endpoint.
 
 #### Parameters:
 
@@ -67,8 +70,73 @@ if the type is `TV`.
 }
 ```
 
-### Series
+## Series
 
-> <your-api-instance>/series?media_id=<media-id-from-search-result>
+> <your-api-instance>/series?media_id=
 
-TODO
+This endpoint will provide you with an episode id of each episode from different server which can then be used to get an
+actual m3u8 url from the episode endpoint.
+
+#### Parameters:
+
+- `media_id`: The media_id as provided in the response by the search endpoint.
+
+#### Response:
+
+```json
+{
+  "episodes": {
+    "1": {
+      "1": {
+        "date": "Nov 16, 2004",
+        "name": "Pilot",
+        "sources": {
+          "X_server_id": "X_server_episode_id",
+          "Y_server_id": "Y_server_episode_id"
+        }
+      },
+      "2": {
+        "date": "Nov 23, 2004",
+        "name": "First season, second episode",
+        "sources": {
+          "X_server_id": "X_server_episode_id",
+          "Y_server_id": "Y_server_episode_id"
+        }
+      }
+    },
+    "2": {
+      "1": {
+        "date": "Sep 13, 2005",
+        "name": "Second season, first episode",
+        "sources": {
+          "X_server_id": "X_server_episode_id",
+          "Y_server_id": "Y_server_episode_id"
+        }
+      }
+    }
+  },
+  "servers": {
+    "X_server_name": "X_server_id",
+    "Y_server_name": "Y_server_id"
+  }
+}
+```
+
+## Episode
+
+> <your-api-instance>/episode?episode_id=
+
+Use this endpoint to get a m3u8 url for either a movie on a particular server or an episode from a show on a particular
+server.
+
+#### Parameters:
+
+- `episode_id`: The episode_id as provided in the response by the movie/series endpoint.
+
+#### Response:
+
+```json
+{
+  "url": "m3u8 url"
+}
+```
