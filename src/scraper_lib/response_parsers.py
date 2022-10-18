@@ -21,8 +21,9 @@ class Search:
 
     def __parse_max_page_no(self) -> int:
         navigation_anchor_tags = self.soup.select("div.content > div.pagenav > ul.pagination > li > a")
-        for anchor_tag in navigation_anchor_tags:
-            is_last_page_anchor = bytes(anchor_tag.text, "utf8") == b"\xc2\xbb"
+        for i, anchor_tag in enumerate(navigation_anchor_tags):
+            is_arrow_key_anchor = bytes(anchor_tag.text, "utf8") == b"\xc2\xbb"
+            is_last_page_anchor = is_arrow_key_anchor or ((i + 1) == len(navigation_anchor_tags))
             if not is_last_page_anchor:
                 continue
             navigation_url = urlparse(anchor_tag["href"])
