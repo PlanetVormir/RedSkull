@@ -1,7 +1,9 @@
+from datetime import timedelta
 from urllib.parse import quote_plus
 from http.client import responses as error_messages
 
 import requests
+import requests_cache
 
 if __name__ == "__main__":
     from response_parsers import *
@@ -27,7 +29,7 @@ class RedSkull:
 
     def __init__(self, headers=None):
         self.headers = headers or self.HEADERS
-        self.session = requests.Session()
+        self.session = requests_cache.CachedSession('requests_cache', expire_after=timedelta(minutes=30))
         self.session.headers.update(self.headers)
         self.__set_session_cookie()
 
