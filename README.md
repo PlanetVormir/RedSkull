@@ -1,5 +1,8 @@
 # RedSkull
 
+> **Note** Source website for this API has changed, I don't want to reverse engineer it again.
+> Besides, I have a jellyfin server now so I don't need this anyways.
+
 > _"I guide others to a treasure I cannot possess"_
 
 RedSkull scrapes a media streaming website and provides its data in form of an API. This is merely an indexing API,
